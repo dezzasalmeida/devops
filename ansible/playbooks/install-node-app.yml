@@ -1,0 +1,30 @@
+---
+- name: "Install App Node"
+  hosts: aula
+  become: yes
+  vars: 
+    path_app: /usr/app
+  tasks:
+    - name: 1 - Criar o diretório
+      file:
+        path: "{{path_app}}"
+        state: directory
+        mode: '0755'
+    
+    - name: 2 - Instalar a dependência unzip
+      package:
+        name:
+          - unzip
+        state: present
+
+    - name: 3 - Fazer download e descompactar
+      unarchive:
+        src: https://github.com/bgsouza/app_node2/archive/master.zip
+        dest: "{{path_app}}"
+        remote_src: yes
+
+    # - name: 4 - Compilar a aplicação (npm install)
+
+    # - name: 5 - Gerenciador node pm2
+
+    # - name: 6 - Rodar a aplicação
